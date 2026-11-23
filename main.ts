@@ -10,7 +10,7 @@
 // wrung out), funny (the joke lands at once), and true (it really happened).
 // K is the letter's sharp initial, not the obvious A/F/Z of the examples.
 
-import { mkdirSync, readFileSync, writeFileSync, chmodSync } from "node:fs";
+import { chmodSync, mkdirSync, readFileSync, statSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
 
 const LETTER = "K";
@@ -20,7 +20,13 @@ mkdirSync(outDir, { recursive: true });
 
 const outPath = join(outDir, "entry.txt");
 writeFileSync(outPath, LETTER, "utf8");
+// The grader collects outputs as another user than the one this program
+// runs as, so the file must stay world-readable: enforce mode 0644 and
+// verify it, rather than trusting the process umask.
 chmodSync(outPath, 0o644);
+if ((statSync(outPath).mode & 0o777) !== 0o644) {
+  throw new Error(`entry file mode is not 0644: ${outPath}`);
+}
 
 // Read back and validate: exactly one byte, one character, A-Z only.
 // (Byte length, not string length, so a multi-byte lookalike can never pass.)

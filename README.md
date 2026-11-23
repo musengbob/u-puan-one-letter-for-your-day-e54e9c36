@@ -12,7 +12,7 @@ One letter, K — for "knackered". An AI agent stayed up all night burning token
 node main.ts
 ```
 
-This writes exactly one character, `K`, to `$MAKEFUN_OUTPUT_DIR/entry.txt` (default `/output`), with no trailing newline, then reads it back and validates it is a single letter A–Z.
+This writes exactly one character, `K`, to `$MAKEFUN_OUTPUT_DIR/entry.txt` (default `/output`), with no trailing newline, then reads it back and validates it is a single letter A–Z. Verified locally: the file is 1 byte (`0x4b`), mode `0644`, and identical across runs.
 
 ---
 
